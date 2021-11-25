@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 
 namespace Models.Models
 {
-    public class Genre
+    public class Book
     {
-
         [Key]
-        public int GenreId { get; set; }
+        public int BookId { get; set; }
+        [Required]
+        [MaxLength(250)]
+        public string Title { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string ISBN { get; set; }
+        [Required]
+        public Decimal Price { get; set; }
+
+
+
     }
 }
