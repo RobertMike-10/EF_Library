@@ -18,5 +18,7 @@ namespace Models.Models
 
         public Decimal Weight { get; set; }
 
+        public Book Book { get; set; }
+
     }
 }

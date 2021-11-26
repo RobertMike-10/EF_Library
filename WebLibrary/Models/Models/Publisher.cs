@@ -18,5 +18,7 @@ namespace Models.Models
         [Required]
         [MaxLength(500)]
         public string Location { get; set; }
+
+        public List<Book> Books { get; set; }
     }
 }

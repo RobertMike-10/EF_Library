@@ -4,14 +4,16 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211126005356_AddedOneToOneBookAndBookDetailRelationship")]
+    partial class AddedOneToOneBookAndBookDetailRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,9 +70,6 @@ namespace DataAccess.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("PublisherId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -82,8 +81,6 @@ namespace DataAccess.Migrations
                         .IsUnique();
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
                 });
@@ -179,27 +176,14 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.Models.Publisher", "Publisher")
-                        .WithMany("Books")
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("BookDetail");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("Models.Models.BookDetail", b =>
                 {
                     b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("Models.Models.Publisher", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
