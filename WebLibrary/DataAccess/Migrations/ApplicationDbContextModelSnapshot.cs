@@ -88,6 +88,21 @@ namespace DataAccess.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("Models.Models.BookAuthor", b =>
+                {
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookAuthors");
+                });
+
             modelBuilder.Entity("Models.Models.BookDetail", b =>
                 {
                     b.Property<int>("BookDetailId")
@@ -107,6 +122,21 @@ namespace DataAccess.Migrations
                     b.HasKey("BookDetailId");
 
                     b.ToTable("BookDetail");
+                });
+
+            modelBuilder.Entity("Models.Models.BookGenre", b =>
+                {
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GenreId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookGenres");
                 });
 
             modelBuilder.Entity("Models.Models.Category", b =>
@@ -190,6 +220,56 @@ namespace DataAccess.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("Models.Models.BookAuthor", b =>
+                {
+                    b.HasOne("Models.Models.Author", "Author")
+                        .WithMany("BookAuthors")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Models.Book", "Book")
+                        .WithMany("BookAuthors")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Models.Models.BookGenre", b =>
+                {
+                    b.HasOne("Models.Models.Book", "Book")
+                        .WithMany("BookGenres")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Models.Genre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("Models.Models.Author", b =>
+                {
+                    b.Navigation("BookAuthors");
+                });
+
+            modelBuilder.Entity("Models.Models.Book", b =>
+                {
+                    b.Navigation("BookAuthors");
+
+                    b.Navigation("BookGenres");
                 });
 
             modelBuilder.Entity("Models.Models.BookDetail", b =>

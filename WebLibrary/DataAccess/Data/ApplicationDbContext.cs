@@ -23,5 +23,16 @@ namespace DataAccess.Data
 
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<BookAuthor> BookAuthors { get; set; }
+        public DbSet<BookGenre> BookGenres { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BookAuthor>().HasKey(ba => new{ ba.AuthorId, ba.BookId});
+            modelBuilder.Entity<BookGenre>().HasKey(bg => new { bg.GenreId, bg.BookId });
+            modelBuilder.Entity<Book>()
+            .HasIndex(b => b.BookDetailId)
+            .IsUnique();
+        }
     }
 }
