@@ -6,63 +6,64 @@ using System.Linq;
 
 namespace WebLibrary.Controllers
 {
-    public class AuthorController : Controller
+    public class GenreController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        public AuthorController(ApplicationDbContext db)
+        public GenreController(ApplicationDbContext db)
         {
             _db = db;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
-            List<Author> objList = _db.Authors.ToList();
+            List<Genre> objList = _db.Genres.ToList();
             return View(objList);
         }
+
         [HttpGet]
         public IActionResult Upsert(int? id)
         {
-            Author author = new Author();
-            if (id == null) return View(author);
-           
+            Genre genre = new Genre();
+            if (id == null) return View(genre);
+
             //this for edit
-            author = _db.Authors.FirstOrDefault(a => a.AuthorId == id);
-            if (author == null) return NotFound();
-            
-            return View(author);
+            genre = _db.Genres.FirstOrDefault(g => g.GenreId == id);
+            if (genre == null) return NotFound();
+
+            return View(genre);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Author author)
+        public IActionResult Upsert(Genre genre)
         {
             if (ModelState.IsValid)
             {
-                if (author.AuthorId == 0)
+                if (genre.GenreId == 0)
                 {
                     //this is create
-                    _db.Authors.Add(author);
+                    _db.Genres.Add(genre);
                 }
                 else
                 {
                     //this is an update
-                    _db.Authors.Update(author);
+                    _db.Genres.Update(genre);
                 }
                 _db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View(author);
+            return View(genre);
 
         }
 
         public IActionResult Delete(int id)
         {
-            var author = _db.Authors.FirstOrDefault(a => a.AuthorId == id);
-            _db.Authors.Remove(author);
+            var genre = _db.Genres.FirstOrDefault(g => g.GenreId == id);
+            _db.Genres.Remove(genre);
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }
-
 }
