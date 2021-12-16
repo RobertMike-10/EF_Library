@@ -66,13 +66,24 @@ namespace WebLibrary.Controllers
 
         public IActionResult CreateMultiple(int id)
         {
-            List<Category> catList = new List<Category>();
+            List<Category> categoryList = new List<Category>();
             for (int i = 1; i <= id; i++)
             {
-                catList.Add(new Category { Name = Guid.NewGuid().ToString() });
+                categoryList.Add(new Category { Name = Guid.NewGuid().ToString() });
                 //_db.Categories.Add(new Category { Name = Guid.NewGuid().ToString() });
             }
-            _db.Categories.AddRange(catList);
+            _db.Categories.AddRange(categoryList);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult RemoveMultiple(int id)
+        {
+            //Remove Last N Categories
+            IEnumerable<Category> categoryList = _db.Categories.OrderByDescending(c => c.CategoryId).Take(id).ToList();
+
+            _db.Categories.RemoveRange(categoryList);
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
