@@ -1,5 +1,8 @@
 ﻿using DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
+using Models.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebLibrary.Controllers
 {
@@ -13,7 +16,8 @@ namespace WebLibrary.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            List<Category> categories = _db.Categories.ToList();
+            return View(categories);
         }
     }
 }
