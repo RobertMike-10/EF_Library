@@ -18,8 +18,8 @@ namespace WebLibrary.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Publisher> objList = _db.Publishers.ToList();
-            return View(objList);
+            List<Publisher> publishers = _db.Publishers.ToList();
+            return View(publishers);
         }
 
         [HttpGet]

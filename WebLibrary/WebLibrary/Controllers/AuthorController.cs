@@ -17,8 +17,8 @@ namespace WebLibrary.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Author> objList = _db.Authors.ToList();
-            return View(objList);
+            List<Author> authors = _db.Authors.ToList();
+            return View(authors);
         }
         [HttpGet]
         public IActionResult Upsert(int? id)

@@ -18,8 +18,8 @@ namespace WebLibrary.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Genre> objList = _db.Genres.ToList();
-            return View(objList);
+            List<Genre> genres= _db.Genres.ToList();
+            return View(genres);
         }
 
         [HttpGet]
