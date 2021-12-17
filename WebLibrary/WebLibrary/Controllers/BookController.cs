@@ -1,6 +1,7 @@
 ﻿using DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Models.ViewModels;
 using System.Collections.Generic;
@@ -19,7 +20,10 @@ namespace WebLibrary.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Book> books = _db.Books.ToList();
+            List<Book> books = _db.Books.Include(b => b.Publisher).
+                                         Include(b => b.Category).
+                                         Include(b => b.BookAuthors).
+                                         Include(b=> b.BookGenres).ToList();
             return View(books);
         }
 
