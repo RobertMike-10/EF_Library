@@ -118,5 +118,15 @@ namespace WebLibrary.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-    }
+
+        public IActionResult PlayGround()
+        {
+            IEnumerable<Book> BookList1 = _db.Books;
+            var FilteredBook1 = BookList1.Where(b => b.Price > 500).ToList();
+
+            IQueryable<Book> BookList2 = _db.Books;
+            var fileredBook2 = BookList2.Where(b => b.Price > 500).ToList();
+
+            return RedirectToAction(nameof(Index));
+        }
 }
