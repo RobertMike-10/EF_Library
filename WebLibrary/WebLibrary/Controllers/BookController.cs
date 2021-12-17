@@ -33,6 +33,11 @@ namespace WebLibrary.Controllers
                 Text = p.Name,
                 Value = p.PublisherId.ToString()
             });
+            book.CategoriesList = _db.Categories.Select(p => new SelectListItem
+            {
+                Text = p.Name,
+                Value = p.CategoryId.ToString()
+            });
             if (id == null) return View(book);
 
             //this for edit
@@ -45,18 +50,26 @@ namespace WebLibrary.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(BookVM obj)
+        public IActionResult Upsert(BookVM bookVM)
         {
-            if (obj.Book.BookId == 0)
+            if (bookVM.Book.BookId == 0)
             {
                 //this is create
-                _db.Books.Add(obj.Book);
+                _db.Books.Add(bookVM.Book);
             }
             else
             {
                 //this is an update
-                _db.Books.Update(obj.Book);
+                _db.Books.Update(bookVM.Book);
             }
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var book = _db.Books.FirstOrDefault(b => b.BookId == id);
+            _db.Books.Remove(book);
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

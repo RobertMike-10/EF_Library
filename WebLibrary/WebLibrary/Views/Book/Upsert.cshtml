@@ -45,6 +45,16 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Book.CategoryId"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(u => u.Book.CategoryId, Model.CategoriesList, "--Categories List--",
+                        new { @class = "form-control" })
+                    <span asp-validation-for="Book.CategoryId" class="text-danger"></span>
+                </div>
+            </div>
 
             <div class="form-group row">
                 <div class="col-4">

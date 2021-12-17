@@ -26,7 +26,7 @@ namespace Models.Models
         public Category Category { get; set; }
 
         [ForeignKey("BookDetail")]       
-        public int BookDetailId { get; set; }
+        public int? BookDetailId { get; set; }
         public BookDetail BookDetail { get; set; }
 
         [ForeignKey("Publisher")]

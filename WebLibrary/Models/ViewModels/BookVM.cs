@@ -15,5 +15,7 @@ namespace Models.ViewModels
 
         public IEnumerable<SelectListItem> PublisherList { get; set; }
 
+        public IEnumerable<SelectListItem> CategoriesList { get; set; }
+
     }
 }
