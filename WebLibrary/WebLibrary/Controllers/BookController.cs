@@ -77,5 +77,46 @@ namespace WebLibrary.Controllers
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            BookVM bookVM = new BookVM();
+
+            if (id == null) return View(bookVM);
+         
+            //this for edit
+            bookVM.Book = _db.Books.Include(b => b.BookDetail).FirstOrDefault(b => b.BookId == id);
+
+            if (bookVM == null) return NotFound();
+           
+            return View(bookVM);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Details(BookVM bookVM)
+        {
+            if (bookVM.Book.BookDetail.BookDetailId == 0)
+            {
+                //this is create
+                _db.BookDetails.Add(bookVM.Book.BookDetail);
+                _db.SaveChanges();
+
+                //adding key
+                Book book = _db.Books.FirstOrDefault(b => b.BookId == bookVM.Book.BookId);
+                book.BookDetailId = bookVM.Book.BookDetail.BookDetailId;
+                _db.SaveChanges();
+            }
+            else
+            {
+                //this is an update
+                _db.BookDetails.Update(bookVM.Book.BookDetail);
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

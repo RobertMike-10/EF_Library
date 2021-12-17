@@ -26,6 +26,8 @@ namespace DataAccess.Data
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
 
+        public DbSet<BookDetail> BookDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookAuthor>().HasKey(ba => new{ ba.AuthorId, ba.BookId});
