@@ -22,8 +22,8 @@ namespace WebLibrary.Controllers
         {
             List<Book> books = _db.Books.Include(b => b.Publisher).
                                          Include(b => b.Category).
-                                         Include(b => b.BookAuthors).
-                                         Include(b=> b.BookGenres).ToList();
+                                         Include(b => b.BookAuthors).ThenInclude(a => a.Author).
+                                         Include(b=> b.BookGenres).ThenInclude(g => g.Genre).ToList();
             return View(books);
         }
 
