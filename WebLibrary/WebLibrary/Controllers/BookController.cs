@@ -226,7 +226,7 @@ namespace WebLibrary.Controllers
 
             IQueryable<Book> BookList2 = _db.Books;
             var fileredBook2 = BookList2.Where(b => b.Price > 500).ToList();
-
+            /*
             var category = _db.Categories.FirstOrDefault();
             _db.Entry(category).State = EntityState.Modified;
 
@@ -238,12 +238,21 @@ namespace WebLibrary.Controllers
             _db.Books.Update(bookTemp1);
             _db.SaveChanges();
 
-
             var bookTemp2 = _db.Books.Include(b => b.BookDetail).FirstOrDefault(b => b.BookId == 4);
             bookTemp2.BookDetail.Weight = 34.8M;
             bookTemp2.Price = 5678;
             _db.Books.Attach(bookTemp2);
-            _db.SaveChanges();
+            _db.SaveChanges();*/
+
+            //VIEWS
+            var viewList = _db.BookDetailsView.ToList();
+            var viewList1 = _db.BookDetailsView.FirstOrDefault();
+            var viewList2 = _db.BookDetailsView.Where(u => u.Price > 500);
+
+            //RAW SQL
+
+            var bookRaw = _db.Books.FromSqlRaw("Select * from dbo.books").ToList();
+           
 
             return RedirectToAction(nameof(Index));
         }
