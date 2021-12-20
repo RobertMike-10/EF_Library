@@ -146,6 +146,29 @@ namespace WebLibrary.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult ManageGenres(BookGenreVM bookGenreVM)
+        {
+            if (bookGenreVM.BookGenre.BookId != 0 && bookGenreVM.BookGenre.GenreId != 0)
+            {
+                _db.BookGenres.Add(bookGenreVM.BookGenre);
+                _db.SaveChanges();
+            }
+            return RedirectToAction(nameof(ManageGenres), new { @id = bookGenreVM.BookGenre.BookId });
+        }
+
+        [HttpPost]
+        public IActionResult RemoveGenres(int genreId, BookGenreVM bookGenreVM)
+        {
+            int bookId = bookGenreVM.Book.BookId;
+            BookGenre bookGenre = _db.BookGenres.FirstOrDefault(
+                b => b.GenreId == genreId && b.BookId == bookId);
+
+            _db.BookGenres.Remove(bookGenre);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(ManageGenres), new { @id = bookId });
+        }
+
         [HttpGet]
         public IActionResult ManageAuthors(int id)
         {
@@ -182,6 +205,18 @@ namespace WebLibrary.Controllers
                 _db.SaveChanges();
             }
             return RedirectToAction(nameof(ManageAuthors), new { @id = bookAuthorVM.BookAuthor.BookId });
+        }
+
+        [HttpPost]
+        public IActionResult RemoveAuthors(int authorId, BookAuthorVM bookAuthorVM)
+        {
+            int bookId = bookAuthorVM.Book.BookId;
+            BookAuthor bookAuthor = _db.BookAuthors.FirstOrDefault(
+                b => b.AuthorId == authorId && b.BookId == bookId);
+
+            _db.BookAuthors.Remove(bookAuthor);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(ManageAuthors), new { @id = bookId });
         }
 
         public IActionResult PlayGround()
