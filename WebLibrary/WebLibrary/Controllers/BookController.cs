@@ -252,7 +252,16 @@ namespace WebLibrary.Controllers
             //RAW SQL
 
             var bookRaw = _db.Books.FromSqlRaw("Select * from dbo.books").ToList();
-           
+
+            //SQL Injection attack prone
+            int id = 2;
+            var bookTemp1 = _db.Books.FromSqlInterpolated($"Select * from dbo.books where BookId={id}").ToList();
+
+            var booksSproc = _db.Books.FromSqlInterpolated($" EXEC dbo.getAllBookDetails {id}").ToList();
+
+            //.NET 5 only
+            var BookFilter1 = _db.Books.Include(e => e.BookAuthors.Where(p => p.AuthorId == 4)).ToList();
+            var BookFilter2 = _db.Books.Include(e => e.BookAuthors.OrderByDescending(p => p.AuthorId).Take(2)).ToList();
 
             return RedirectToAction(nameof(Index));
         }
