@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using Models.StoreProcedureModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,5 +41,7 @@ namespace DataAccess.Data
 
             modelBuilder.Entity<BookDetailsView>().HasNoKey().ToView("GetOnlyBookDetails");
         }
+
+        
     }
 }

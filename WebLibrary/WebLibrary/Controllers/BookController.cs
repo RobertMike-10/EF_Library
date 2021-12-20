@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using Models.StoreProcedureModels;
 using Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -262,6 +263,19 @@ namespace WebLibrary.Controllers
             //.NET 5 only
             var BookFilter1 = _db.Books.Include(e => e.BookAuthors.Where(p => p.AuthorId == 4)).ToList();
             var BookFilter2 = _db.Books.Include(e => e.BookAuthors.OrderByDescending(p => p.AuthorId).Take(2)).ToList();
+
+
+            List<Parameter> parameters = new List<Parameter>();
+
+            var param = new Parameter { ParameterName = "authorId", Value = 4, DbType = System.Data.DbType.Int32 };
+            parameters.Add(param);
+            var param2 = new Parameter { ParameterName = "genero", Value = "Ciencia Ficción", DbType = System.Data.DbType.String };
+            parameters.Add(param2);
+
+            var result= _db.LoadStoredProcedure("[dbo].[getAllInfoBook]")
+                      .WithSqlParams(parameters)
+                      .ExecuteStoredProcedure<BookFull>();
+
 
             return RedirectToAction(nameof(Index));
         }
