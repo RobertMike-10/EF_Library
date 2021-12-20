@@ -119,6 +119,71 @@ namespace WebLibrary.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult ManageGenres(int id)
+        {
+            BookGenreVM model = new BookGenreVM
+            {
+                BookGenreList = _db.BookGenres.Include(b => b.Genre).Include(b => b.Book)
+                                    .Where(b => b.BookId == id).ToList(),
+                BookGenre = new BookGenre()
+                {
+                    BookId = id
+                },
+                Book = _db.Books.FirstOrDefault(b => b.BookId == id)
+            };
+            List<int> tempListOfGenres = model.BookGenreList.Select(g => g.GenreId).ToList();
+            //NOT IN Clause in LINQ
+            //get all the authors whos id is not in tempListOfAssignedAuthors
+            var tempList = _db.Genres.Where(g => !tempListOfGenres.Contains(g.GenreId)).ToList();
+
+            model.GenreList = tempList.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.GenreId.ToString()
+            });
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ManageAuthors(int id)
+        {
+            BookAuthorVM model = new BookAuthorVM
+            {
+                BookAuthorList = _db.BookAuthors.Include(b => b.Author).Include(b => b.Book)
+                                    .Where(b => b.BookId == id).ToList(),
+                BookAuthor = new BookAuthor()
+                {
+                    BookId = id
+                },
+                Book = _db.Books.FirstOrDefault(b => b.BookId == id)
+            };
+            List<int> tempListOfAuthors = model.BookAuthorList.Select(a => a.AuthorId).ToList();
+            //NOT IN Clause in LINQ
+            //get all the authors whos id is not in tempListOfAssignedAuthors
+            var tempList = _db.Authors.Where(a => !tempListOfAuthors.Contains(a.AuthorId)).ToList();
+
+            model.AuthorList = tempList.Select(i => new SelectListItem
+            {
+                Text = i.FullName,
+                Value = i.AuthorId.ToString()
+            });
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ManageAuthors(BookAuthorVM bookAuthorVM)
+        {
+            if (bookAuthorVM.BookAuthor.BookId != 0 && bookAuthorVM.BookAuthor.AuthorId != 0)
+            {
+                _db.BookAuthors.Add(bookAuthorVM.BookAuthor);
+                _db.SaveChanges();
+            }
+            return RedirectToAction(nameof(ManageAuthors), new { @id = bookAuthorVM.BookAuthor.BookId });
+        }
+
         public IActionResult PlayGround()
         {
             IEnumerable<Book> BookList1 = _db.Books;
