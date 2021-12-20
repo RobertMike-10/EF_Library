@@ -38,13 +38,13 @@
                         Genres Associated to this Book:
                     </div>
                 </div>
-                @foreach (var auth in Model.BookGenreList)
+                @foreach (var genre in Model.BookGenreList)
                 {
 
                     <div class="row pb-2">
-                        <div class="col-8 text-right" style="font-size:23px;">@auth.Genre.Name</div>
+                        <div class="col-8 text-right" style="font-size:23px;">@genre.Genre.Name</div>
                         <div class="col-4">
-                            <button asp-action="RemoveGenres" type="submit" class="btn btn-danger form-control" asp-route-authorId="@auth.GenreId">Remove</button>
+                            <button asp-action="RemoveGenres" type="submit" class="btn btn-danger form-control" asp-route-genreId="@genre.GenreId">Remove</button>
                         </div>
                     </div>
                 }
