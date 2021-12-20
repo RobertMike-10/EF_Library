@@ -1,5 +1,6 @@
 ﻿using DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace WebLibrary.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Category> categories = _db.Categories.ToList();
+            List<Category> categories = _db.Categories.AsNoTracking().ToList();
             return View(categories);
         }
         [HttpGet]
