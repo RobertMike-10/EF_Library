@@ -23,7 +23,7 @@ namespace WebLibrary.Controllers
             List<Book> books = _db.Books.Include(b => b.Publisher).
                                          Include(b => b.Category).
                                          Include(b => b.BookAuthors).ThenInclude(a => a.Author).
-                                         Include(b=> b.BookGenres).ThenInclude(g => g.Genre).ToList();
+                                         Include(b => b.BookGenres).ThenInclude(g => g.Genre).ToList();
             return View(books);
         }
 
@@ -84,12 +84,12 @@ namespace WebLibrary.Controllers
             BookVM bookVM = new BookVM();
 
             if (id == null) return View(bookVM);
-         
+
             //this for edit
             bookVM.Book = _db.Books.Include(b => b.BookDetail).FirstOrDefault(b => b.BookId == id);
 
             if (bookVM == null) return NotFound();
-           
+
             return View(bookVM);
         }
 
@@ -127,6 +127,25 @@ namespace WebLibrary.Controllers
             IQueryable<Book> BookList2 = _db.Books;
             var fileredBook2 = BookList2.Where(b => b.Price > 500).ToList();
 
+            var category = _db.Categories.FirstOrDefault();
+            _db.Entry(category).State = EntityState.Modified;
+
+            _db.SaveChanges();
+
+            var bookTemp1 = _db.Books.Include(b => b.BookDetail).FirstOrDefault(b => b.BookId == 4);
+            bookTemp1.BookDetail.NumberOfChapters = 300;
+            bookTemp1.Price = 5678;
+            _db.Books.Update(bookTemp1);
+            _db.SaveChanges();
+
+
+            var bookTemp2 = _db.Books.Include(b => b.BookDetail).FirstOrDefault(b => b.BookId == 4);
+            bookTemp2.BookDetail.Weight = 34.8M;
+            bookTemp2.Price = 5678;
+            _db.Books.Attach(bookTemp2);
+            _db.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
+    }
 }
