@@ -8,7 +8,7 @@ namespace DataAccess.Migrations
         {
             migrationBuilder.Sql(@"CREATE PROCEDURE dbo.getAllBookDetailsFull
                                    (@bookId int =0,
-                                    @title VARCHAR(100) = NULL
+                                    @title NVARCHAR(100) = NULL
                                    )
                                    AS
                                     SET NOCOUNT ON;
@@ -17,7 +17,7 @@ namespace DataAccess.Migrations
                                     LEFT JOIN BookDetails BD ON BD.BookDetailId = B.BookDetailId
                                     LEFT JOIN Publishers P ON P.PublisherId = B.PublisherId
                                     LEFT JOIN Categories C ON C.CategoryId = B.CategoryId
-                                    WHERE B.BookId = @bookId OR B.Title like '%@title%';
+                                    WHERE B.BookId = @bookId OR B.Title like '%'+@title+'%';
                                     SET NOCOUNT OFF;
                                    GO");
         }

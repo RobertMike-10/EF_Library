@@ -17,7 +17,7 @@ namespace Models.StoreProcedureModels
         [Required]
         public Decimal Price { get; set; }
 
-        public String NumberOfPages { get; set; }
+        public int NumberOfPages { get; set; }
         public string Publisher { get; set; }
         public string Category { get; set; }
     }

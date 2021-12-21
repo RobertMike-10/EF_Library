@@ -15,8 +15,8 @@ namespace DataAccess.Data
         public  String ParameterName { get; set; }
         public  Object Value { get; set; }
         public  System.Data.DbType DbType { get; set; }
-
     }
+
     public static class StoredProcedureExtensions
     {
 
