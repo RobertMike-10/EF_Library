@@ -267,16 +267,16 @@ namespace WebLibrary.Controllers
 
             List<Parameter> parameters = new List<Parameter>();
 
-            var param = new Parameter { ParameterName = "authorId", Value = 4, DbType = System.Data.DbType.Int32 };
+            var param = new Parameter { ParameterName = "@bookId", Value = 4, DbType = System.Data.DbType.Int32 };
             parameters.Add(param);
-            var param2 = new Parameter { ParameterName = "genero", Value = "Ciencia Ficción", DbType = System.Data.DbType.String };
+            var param2 = new Parameter { ParameterName = "@title", Value = "20000 leguas", DbType = System.Data.DbType.String };
             parameters.Add(param2);
 
-            var result= _db.LoadStoredProcedure("[dbo].[getAllInfoBook]")
+            var result= _db.LoadStoredProcedure("[dbo].[getAllBookDetailsFull]")
                       .WithSqlParams(parameters)
                       .ExecuteStoredProcedure<BookFull>();
 
-
+            
             return RedirectToAction(nameof(Index));
         }
     }
