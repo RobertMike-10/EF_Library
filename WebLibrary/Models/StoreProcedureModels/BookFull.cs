@@ -9,7 +9,6 @@ namespace Models.StoreProcedureModels
 {
     public class BookFull
     {
-
         public string Title { get; set; }
         [Required]
         [MaxLength(50)]

@@ -41,7 +41,6 @@ namespace DataAccess.Data
             return cmd;
         }
 
-
         public static IList<T> ExecuteStoredProcedure<T>(this DbCommand command)
             where T : class
         {
